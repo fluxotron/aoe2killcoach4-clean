@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+src/aoe2killcoach4/__init__.py
+src/aoe2killcoach4/cli.py
+src/aoe2killcoach4/core.py
+src/aoe2killcoach4/data_mappings.py
+src/aoe2killcoach4/time_utils.py
+src/aoe2killcoach4.egg-info/PKG-INFO
+src/aoe2killcoach4.egg-info/SOURCES.txt
+src/aoe2killcoach4.egg-info/dependency_links.txt
+src/aoe2killcoach4.egg-info/entry_points.txt
+src/aoe2killcoach4.egg-info/requires.txt
+src/aoe2killcoach4.egg-info/top_level.txt
+tests/test_core.py

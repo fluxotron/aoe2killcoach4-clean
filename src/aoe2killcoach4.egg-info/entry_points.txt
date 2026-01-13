@@ -1,0 +1,2 @@
+[console_scripts]
+aoe2killcoach4 = aoe2killcoach4.cli:main

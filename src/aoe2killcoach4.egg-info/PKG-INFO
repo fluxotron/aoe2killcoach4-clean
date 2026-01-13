@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: aoe2killcoach4
+Version: 0.4.0
+Summary: AoE2 KillCoach v4 replay analyzer
+Author: AoE2 KillCoach
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: mgz>=1.8.19
+
+# aoe2killcoach4

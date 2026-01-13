@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aoe2killcoach4"
+version = "0.4.0"
+description = "AoE2 KillCoach v4 replay analyzer"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "AoE2 KillCoach" }
+]
+dependencies = [
+  "mgz>=1.8.19",
+]
+
+[project.scripts]
+aoe2killcoach4 = "aoe2killcoach4.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
