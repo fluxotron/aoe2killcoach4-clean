@@ -92,8 +92,15 @@ def _action_time(action: dict[str, Any]) -> Optional[int]:
 
 
 def _player_actions(data: dict[str, Any], player_index: int) -> list[dict[str, Any]]:
+    """
+    Filter actions for a given player.
+
+    Note: mgz serialize uses 1-based action["player"] values (1,2,...),
+    while our players list is 0-based. So we match on (player_index + 1).
+    """
     actions = data.get("actions", [])
-    return [action for action in actions if action.get("player") == player_index]
+    target = player_index + 1
+    return [action for action in actions if action.get("player") == target]
 
 
 def _unit_line(unit_name: str | None) -> str:
