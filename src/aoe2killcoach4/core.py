@@ -88,7 +88,7 @@ def extract_match_info(data: dict[str, Any]) -> dict[str, Any]:
 
 def _action_time(action: dict[str, Any]) -> Optional[int]:
     ts = action.get("timestamp")
-    return int(ts) if ts is not None else None
+    return coerce_seconds(ts)
 
 
 def _player_actions(data: dict[str, Any], player_index: int) -> list[dict[str, Any]]:
@@ -535,6 +535,12 @@ def analyze_replay(
     opp_index = players.index(opponent)
 
     match_info = extract_match_info(data)
+    # Avoid bloating outputs with custom-map tile grids
+    m = match_info.get('map')
+    if isinstance(m, dict) and 'tiles' in m:
+        m = dict(m)
+        m.pop('tiles', None)
+        match_info['map'] = m
     duration = coerce_seconds(match_info.get("duration") or 0) or 0
 
     you_actions = _player_actions(data, you_index)
@@ -754,12 +760,18 @@ def write_outputs(
     out_dir.mkdir(parents=True, exist_ok=True)
     match = result["match"]
     players = result["players"]
+    # Map names can be huge dicts (e.g., custom maps with tiles). Keep filenames short.
+    map_val = match.get("map")
+    if isinstance(map_val, dict):
+        map_name = str(map_val.get("name") or map_val.get("id") or "map")
+    else:
+        map_name = str(map_val or "map")
     timestamp = match.get("timestamp")
     if isinstance(timestamp, (int, float)):
         ts_str = datetime.utcfromtimestamp(timestamp).strftime("%Y-%m-%d_%H%M")
     else:
         ts_str = datetime.utcnow().strftime("%Y-%m-%d_%H%M")
-    name = f"{match.get('map','map')}_{players['you'].get('civilization','you')}_vs_{players['opponent'].get('civilization','opp')}_{ts_str}"
+    name = f"{map_name}_{players['you'].get('civilization','you')}_vs_{players['opponent'].get('civilization','opp')}_{ts_str}"
     friendly = sanitize_filename(name)
     json_path = out_dir / f"{friendly}.llm.json"
     prompt_path = out_dir / f"{friendly}.prompt.md"
